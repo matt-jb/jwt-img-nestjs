@@ -26,7 +26,11 @@ export class UsersService {
 
   async getUserInfo(req: Request & { user: UserData }) {
     const token = jwtDecode(req.headers["authorization"]);
-    const loggedInAt = dayjs.unix(token.iat).format("YYYY-MM-DD HH:mm:ss");
+    const loggedInAt = dayjs
+      .unix(token.iat)
+      .utc()
+      .tz("Europe/Warsaw")
+      .format("YYYY-MM-DD HH:mm:ss");
 
     return {
       id: req.user.userId,
